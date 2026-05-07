@@ -55,8 +55,9 @@ async function screen(symbol) {
 
 function classify(raw) {
   const s = (raw || '').toString();
-  if (/pass|compliant|halal/i.test(s)) return 'pass';
-  if (/fail|non-?compliant|haram/i.test(s)) return 'fail';
+  // Order matters: "non-compliant" contains "compliant", so fail must be checked first.
+  if (/fail|non[\s-]?compliant|haram|reject/i.test(s)) return 'fail';
+  if (/pass|compliant|halal|accept/i.test(s)) return 'pass';
   return 'unknown';
 }
 
