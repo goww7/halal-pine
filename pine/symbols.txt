@@ -1,0 +1,113 @@
+# One ticker per line. Lines starting with # are comments.
+# This is the universe baked into the Pine Script.
+# Edit, then run: npm run build
+
+# --- US large-cap tech ---
+AAPL
+MSFT
+GOOGL
+AMZN
+META
+NVDA
+TSLA
+NFLX
+CRM
+ADBE
+ORCL
+CSCO
+INTC
+AMD
+QCOM
+IBM
+PYPL
+SHOP
+SQ
+UBER
+ABNB
+SNOW
+PLTR
+CRWD
+DDOG
+NET
+ZS
+PANW
+MDB
+TEAM
+
+# --- Healthcare ---
+JNJ
+PFE
+ABBV
+MRK
+LLY
+UNH
+TMO
+ABT
+DHR
+BMY
+AMGN
+GILD
+ISRG
+REGN
+VRTX
+
+# --- Consumer ---
+KO
+PEP
+PG
+WMT
+COST
+HD
+MCD
+NKE
+SBUX
+TGT
+LOW
+DIS
+CMG
+
+# --- Industrial / Energy ---
+XOM
+CVX
+COP
+BA
+GE
+CAT
+DE
+HON
+LMT
+RTX
+UNP
+UPS
+
+# --- Financials (most fail screening — kept in for the lookup) ---
+JPM
+BAC
+WFC
+GS
+MS
+V
+MA
+AXP
+
+# --- Auto ---
+F
+GM
+RIVN
+LCID
+
+# --- Communication / media ---
+T
+VZ
+TMUS
+CMCSA
+
+# --- Semis / hardware ---
+TSM
+AVGO
+TXN
+MU
+LRCX
+KLAC
+AMAT
+ASML

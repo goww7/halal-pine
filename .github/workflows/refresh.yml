@@ -1,0 +1,39 @@
+name: Refresh Pine compliance data
+
+on:
+  schedule:
+    # Daily at 06:00 UTC (after most US market data settles)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install
+        run: npm install --omit=dev || true
+
+      - name: Generate Pine
+        env:
+          HALAL_TERMINAL_API_KEY: ${{ secrets.HALAL_TERMINAL_API_KEY }}
+        run: node scripts/generate-pine.mjs
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- pine/halal-screener.pine; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "halal-pine-bot"
+          git config user.email "bot@halalterminal.com"
+          git add pine/halal-screener.pine
+          git commit -m "chore(pine): refresh compliance data ($(date -u +%Y-%m-%d))"
+          git push

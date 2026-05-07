@@ -1,0 +1,70 @@
+// © Halal Terminal — MIT License
+// SPDX-License-Identifier: MIT
+//@version=5
+//
+// Halal Screener — overlays Shariah-compliance status on a chart.
+//
+// THIS IS A STARTER FILE with a small hand-curated dataset.
+// Run `npm run build` (with your Halal Terminal API key) to refresh the full
+// universe from live API data, or wait for the daily GitHub Action to do it.
+//
+// Powered by https://halalterminal.com — free API key, 200 screens/month.
+
+indicator("Halal Screener", overlay = true, max_labels_count = 1)
+
+var string GROUP_DISPLAY = "Display"
+showBadge   = input.bool(true,  "Show compliance badge",      group = GROUP_DISPLAY)
+showRibbon  = input.bool(true,  "Tint background by status",  group = GROUP_DISPLAY)
+showSummary = input.bool(true,  "Show summary table",         group = GROUP_DISPLAY)
+
+// === Embedded compliance data (starter — regenerate for full universe) ========
+var array<string> HALAL = array.from(
+      "AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "ADBE", "CRM", "ORCL",
+      "JNJ", "ABBV", "MRK", "LLY", "TMO", "DHR", "ISRG", "REGN", "VRTX",
+      "KO", "PEP", "PG", "COST", "HD", "MCD", "NKE", "TGT",
+      "TSM", "AVGO", "TXN", "ASML")
+
+var array<string> HARAM = array.from(
+      "JPM", "BAC", "WFC", "GS", "MS", "V", "MA", "AXP",
+      "BA",
+      "DIS",
+      "F", "GM",
+      "T", "VZ", "TMUS", "CMCSA",
+      "INTC", "PYPL")
+
+sym = syminfo.ticker
+isHalal = array.includes(HALAL, sym)
+isHaram = array.includes(HARAM, sym)
+
+statusText = isHalal ? "HALAL ✓" : isHaram ? "NON-COMPLIANT ✗" : "NOT IN DATASET"
+statusColor = isHalal ? color.new(color.green, 0) : isHaram ? color.new(color.red, 0) : color.new(color.gray, 30)
+statusBg    = isHalal ? color.new(color.green, 92) : isHaram ? color.new(color.red, 92) : color.new(color.gray, 95)
+
+bgcolor(showRibbon ? statusBg : na)
+
+if showBadge and barstate.islast
+    var label badge = na
+    label.delete(badge)
+    badge := label.new(
+         x = bar_index, y = high,
+         text = sym + "  " + statusText,
+         style = label.style_label_left,
+         color = statusColor,
+         textcolor = color.white,
+         size = size.normal,
+         yloc = yloc.abovebar)
+
+if showSummary and barstate.islast
+    var table tbl = table.new(position.top_right, 2, 4, border_width = 1)
+    table.cell(tbl, 0, 0, "Halal Screener", text_color = color.white, bgcolor = color.new(color.teal, 20))
+    table.cell(tbl, 1, 0, "starter",        text_color = color.white, bgcolor = color.new(color.teal, 20))
+    table.cell(tbl, 0, 1, "Symbol",         text_color = color.gray)
+    table.cell(tbl, 1, 1, sym,              text_color = color.white)
+    table.cell(tbl, 0, 2, "Status",         text_color = color.gray)
+    table.cell(tbl, 1, 2, statusText,       text_color = isHalal ? color.lime : isHaram ? color.red : color.silver)
+    table.cell(tbl, 0, 3, "Methodology",    text_color = color.gray)
+    table.cell(tbl, 1, 3, "AAOIFI",         text_color = color.silver)
+
+plot(isHalal ? 1 : isHaram ? -1 : 0, title = "Halal Signal", color = color.new(color.teal, 100), display = display.none)
+
+alertcondition(isHaram, title = "Non-compliant ticker", message = "{{ticker}} is non-compliant under AAOIFI screening (Halal Terminal).")

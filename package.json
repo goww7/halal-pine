@@ -1,0 +1,27 @@
+{
+  "name": "halal-pine",
+  "version": "0.1.0",
+  "description": "TradingView Pine Script v5 indicators that overlay Shariah-compliance status on charts. Refreshed daily from Halal Terminal API.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate-pine.mjs",
+    "build:dev": "HALAL_PINE_LIMIT=50 node scripts/generate-pine.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "tradingview",
+    "pine-script",
+    "halal",
+    "shariah",
+    "islamic-finance",
+    "stocks",
+    "halalterminal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goww7/halal-pine"
+  }
+}
