@@ -130,7 +130,7 @@ function renderPine({ halal, haram, generated, total }) {
 // Data baked from Halal Terminal API on ${generated} (${total} symbols).
 // Refreshed daily by GitHub Action — see https://github.com/goww7/halal-pine
 //
-// Powered by https://halalterminal.com — free API key, 200 screens/month.
+// Powered by https://halalterminal.com — free API key, 50 requests/month.
 
 indicator("Halal Screener", overlay = true, max_labels_count = 1)
 

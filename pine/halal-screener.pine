@@ -8,7 +8,7 @@
 // Run `npm run build` (with your Halal Terminal API key) to refresh the full
 // universe from live API data, or wait for the daily GitHub Action to do it.
 //
-// Powered by https://halalterminal.com — free API key, 200 screens/month.
+// Powered by https://halalterminal.com — free API key, 50 requests/month.
 
 indicator("Halal Screener", overlay = true, max_labels_count = 1)
 
